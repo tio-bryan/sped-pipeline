@@ -2,9 +2,14 @@
 # -*- coding: utf-8 -*-
 
 
+import sys
 from pathlib import Path
 import pandas as pd
+from functions import save_parquet_idempotent
 
+
+# Add the parent directory of the current file to sys.path for function imports
+sys.path.append(str(Path(__file__).resolve().parent))
 
 # Read all files in the bronze data directory
 raw_path_str = '../data/bronze'
@@ -96,10 +101,45 @@ for registro, df in df.groupby('registro'):
             'part_cnpj': str
         })
 
-        print(df)
-        print(sped_df)
-        print(sped_df.dtypes)
-        sped_df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
+        # Validation rules
+        valid_condition = (
+            sped_df['cnpj'].notna() &
+            sped_df['periodo'].notna() &
+            sped_df['REG'].notna() &
+            sped_df['IND_OPER'].notna() &
+            sped_df['IND_EMIT'].notna() &
+            sped_df['cnpj_estabelecimento'].notna() &
+            sped_df['COD_MOD'].notna() &
+            sped_df['COD_SIT'].notna() &
+            sped_df['num_doc'].notna() &
+            sped_df['8'].notna() &
+            sped_df['dt_emi'].notna() &
+            sped_df['dt_sai'].notna() &
+            sped_df['valor_total'].notna() &
+            sped_df['vl_bc_icms_total'].notna() &
+            sped_df['vl_icms_total'].notna() &
+            sped_df['14'].notna() &
+            sped_df['15'].notna() &
+            sped_df['16'].notna() &
+            sped_df['17'].notna() &
+            sped_df['18'].notna() &
+            sped_df['19'].notna() &
+            sped_df['20'].notna() &
+            sped_df['21'].notna() &
+            sped_df['part_cnpj'].notna()
+        )
+
+        # Split into two separate DataFrames
+        sped_df_valid = sped_df[valid_condition].copy()
+        sped_df_invalid = sped_df[~valid_condition].copy()
+
+        sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
+
+        print(sped_df_valid)
+        print(sped_df_invalid)
+
+        save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
 
     if registro == 'C170':
         print(nome_arquivo)
@@ -112,7 +152,7 @@ for registro, df in df.groupby('registro'):
                     1: 'REG',
                     2: 'i', # Não achei
                     3: 'cod', # Não achei. É o "COD_ITEM"?
-                    4: 'desc', # É o "DESCR_COMPL"?
+                    4: 'descr', # É o "DESCR_COMPL"?
                     5: 'qtd', # É o "QTD"?
                     6: '6', # Não achei
                     7: 'VL_ITEM',
@@ -145,7 +185,7 @@ for registro, df in df.groupby('registro'):
             'REG': str,
             'i': int,
             'cod': str,
-            'desc': str,
+            'descr': str,
             'qtd': str, # Verificar
             '6': str,
             'VL_ITEM': float,
@@ -162,10 +202,41 @@ for registro, df in df.groupby('registro'):
             '18': str # Verificar
         })
 
-        print(df)
-        print(sped_df)
-        print(sped_df.dtypes)
-        sped_df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
+        # Validation rules
+        valid_condition = (
+            sped_df['cnpj'].notna() &
+            sped_df['periodo'].notna() &
+            sped_df['REG'].notna() &
+            sped_df['i'].notna() &
+            sped_df['cod'].notna() &
+            sped_df['descr'].notna() &
+            sped_df['qtd'].notna() &
+            sped_df['6'].notna() &
+            sped_df['VL_ITEM'].notna() &
+            sped_df['CFOP'].notna() &
+            sped_df['cst'].notna() &
+            sped_df['bc_icms'].notna() &
+            sped_df['aliq'].notna() &
+            sped_df['vl_icms'].notna() &
+            sped_df['13'].notna() &
+            sped_df['14'].notna() &
+            sped_df['15'].notna() &
+            sped_df['16'].notna() &
+            sped_df['17'].notna() &
+            sped_df['18'].notna()
+        )
+
+        # Split into two separate DataFrames
+        sped_df_valid = sped_df[valid_condition].copy()
+        sped_df_invalid = sped_df[~valid_condition].copy()
+
+        sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
+
+        print(sped_df_valid)
+        print(sped_df_invalid)
+
+        save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
 
     if registro == 'E100':
         print(nome_arquivo)
@@ -202,10 +273,26 @@ for registro, df in df.groupby('registro'):
             'DT_FIN': 'datetime64[ns]'
         })
 
-        print(df)
-        print(sped_df)
-        print(sped_df.dtypes)
-        sped_df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
+        # Validation rules
+        valid_condition = (
+            sped_df['cnpj'].notna() &
+            sped_df['periodo'].notna() &
+            sped_df['REG'].notna() &
+            sped_df['DT_INI'].notna() &
+            sped_df['DT_FIN'].notna()
+        )
+
+        # Split into two separate DataFrames
+        sped_df_valid = sped_df[valid_condition].copy()
+        sped_df_invalid = sped_df[~valid_condition].copy()
+
+        sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
+
+        print(sped_df_valid)
+        print(sped_df_invalid)
+
+        save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
 
     if registro == 'E110':
         print(nome_arquivo)
@@ -279,7 +366,42 @@ for registro, df in df.groupby('registro'):
             'vl_apurado': float
         })
 
-        print(df)
-        print(sped_df)
-        print(sped_df.dtypes)
-        sped_df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
+        # Validation rules
+        valid_condition = (
+            sped_df['cnpj'].notna() &
+            sped_df['periodo'].notna() &
+            sped_df['REG'].notna() &
+            sped_df['vl_tot_debitos'].notna() &
+            sped_df['3'].notna() &
+            sped_df['4'].notna() &
+            sped_df['vl_tot_debitos2'].notna() &
+            sped_df['saldo_anterior'].notna() &
+            sped_df['7'].notna() &
+            sped_df['8'].notna() &
+            sped_df['9'].notna() &
+            sped_df['10'].notna() &
+            sped_df['11'].notna() &
+            sped_df['vl_tot_creditos'].notna() &
+            sped_df['vl_tot_creditos2'].notna() &
+            sped_df['14'].notna() &
+            sped_df['15'].notna() &
+            sped_df['16'].notna() &
+            sped_df['vl_saldo_credor'].notna() &
+            sped_df['18'].notna() &
+            sped_df['19'].notna() &
+            sped_df['20'].notna() &
+            sped_df['21'].notna() &
+            sped_df['vl_apurado'].notna()
+        )
+
+        # Split into two separate DataFrames
+        sped_df_valid = sped_df[valid_condition].copy()
+        sped_df_invalid = sped_df[~valid_condition].copy()
+
+        sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
+
+        print(sped_df_valid)
+        print(sped_df_invalid)
+
+        save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')

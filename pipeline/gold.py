@@ -5,4 +5,4 @@
 import duckdb
 
 
-duckdb.sql("SELECT * FROM '../data/silver/sped_c100.parquet'").show()
+duckdb.sql("SELECT * FROM '../data/silver/sped_c170.parquet'").show()
