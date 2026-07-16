@@ -95,7 +95,7 @@ for registro, df in df.groupby('registro'):
         print(df)
         print(sped_df)
         print(sped_df.dtypes)
-        df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
+        sped_df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
 
     if registro == 'C170':
         print(nome_arquivo)
@@ -158,7 +158,7 @@ for registro, df in df.groupby('registro'):
         print(df)
         print(sped_df)
         print(sped_df.dtypes)
-        df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
+        sped_df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
 
     if registro == 'E100':
         print(nome_arquivo)
@@ -195,7 +195,7 @@ for registro, df in df.groupby('registro'):
         print(df)
         print(sped_df)
         print(sped_df.dtypes)
-        df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
+        sped_df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
 
     if registro == 'E110':
         print(nome_arquivo)
@@ -269,4 +269,4 @@ for registro, df in df.groupby('registro'):
         print(df)
         print(sped_df)
         print(sped_df.dtypes)
-        df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
+        sped_df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
