@@ -17,6 +17,7 @@ for item in raw_path.rglob('*'):
         df = pd.read_parquet(item)
         df_array.append(df)
 
+# Concatenate all DFs in the df_array
 df = pd.concat(df_array, ignore_index=True)
 
 for registro, df in df.groupby('registro'):
@@ -37,20 +38,20 @@ for registro, df in df.groupby('registro'):
                     5: 'COD_MOD', # É isso mesmo?
                     6: 'COD_SIT', # É isso mesmo?
                     7: 'num_doc',
-                    8: '', # Não achei. São os 3 primeiros dígitos do "num_doc".
+                    8: '8', # Não achei. São os 3 primeiros dígitos do "num_doc".
                     9: 'dt_emi', # É o "data_emissao", correto? Não está na documentação.
                     10: 'dt_sai', # Não está na documentação.
                     11: 'valor_total',
                     12: 'vl_bc_icms_total', # Na documentação há "VL_BC_ICMS" e "VL_BC_ICMS_ST". É a soma dos dois?.
                     13: 'vl_icms_total', # Na documentação há "VL_ICMS" e "VL_ICMS_ST". É a soma dos dois?.
-                    14: '', # Não achei
-                    15: '', # Não achei
-                    16: '', # Não achei
-                    17: '', # Não achei
-                    18: '', # Não achei
-                    19: '', # Não achei
-                    20: '', # Não achei
-                    21: '', # Não achei
+                    14: '14', # Não achei
+                    15: '15', # Não achei
+                    16: '16', # Não achei
+                    17: '17', # Não achei
+                    18: '18', # Não achei
+                    19: '19', # Não achei
+                    20: '20', # Não achei
+                    21: '21', # Não achei
                     22: 'part_cnpj' # É o cnpj_emitente ou o cnpj_destinatario?
                 }
             )
@@ -59,6 +60,9 @@ for registro, df in df.groupby('registro'):
         # Insert 'cnpj' and 'periodo' columns from df into the sped_df
         sped_df.insert(0, 'cnpj', df['cnpj'])
         sped_df.insert(1, 'periodo', df['periodo'])
+
+        # Resets the index of "sped_df", as it retained the index from the old df.
+        sped_df = sped_df.reset_index(drop=True)
 
         # Parse 'dt_emi' and 'dt_sai' columns to datetime format
         sped_df['dt_emi'] = pd.to_datetime(sped_df['dt_emi'], format='%d%m%Y')
@@ -75,20 +79,20 @@ for registro, df in df.groupby('registro'):
             'COD_MOD': str,
             'COD_SIT': int,
             'num_doc': int,
-            '': str,
+            '8': str,
             'dt_emi': 'datetime64[ns]',
             'dt_sai': 'datetime64[ns]',
             'valor_total': float,
             'vl_bc_icms_total': float,
             'vl_icms_total': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
-            '': str, # Verificar
+            '14': float,
+            '15': float,
+            '16': float,
+            '17': float,
+            '18': float,
+            '19': float,
+            '20': float,
+            '21': str, # Verificar
             'part_cnpj': str
         })
 
@@ -110,19 +114,19 @@ for registro, df in df.groupby('registro'):
                     3: 'cod', # Não achei. É o "COD_ITEM"?
                     4: 'desc', # É o "DESCR_COMPL"?
                     5: 'qtd', # É o "QTD"?
-                    6: '', # Não achei
+                    6: '6', # Não achei
                     7: 'VL_ITEM',
                     8: 'CFOP',
                     9: 'cst', # Não achei. Há vários CSTs na documentação. É a soma de tudo?
                     10: 'bc_icms', # Não achei. É o "VL_BC_ICMS" ou "VL_BC_ICMS_ST"?
                     11: 'aliq', # Não achei. Há vários ALIQs na documentação. É a soma de tudo?
                     12: 'vl_icms', # É o "VL_ICMS" ou "VL_ICMS_ST"?
-                    13: '', # Não achei
-                    14: '', # Não achei
-                    15: '', # Não achei
-                    16: '', # Não achei
-                    17: '', # Não achei
-                    18: '' # Não achei
+                    13: '13', # Não achei
+                    14: '14', # Não achei
+                    15: '15', # Não achei
+                    16: '16', # Não achei
+                    17: '17', # Não achei
+                    18: '18' # Não achei
                 }
             )
         )
@@ -130,6 +134,9 @@ for registro, df in df.groupby('registro'):
         # Insert 'cnpj' and 'periodo' columns from df into the sped_df
         sped_df.insert(0, 'cnpj', df['cnpj'])
         sped_df.insert(1, 'periodo', df['periodo'])
+
+        # Resets the index of "sped_df", as it retained the index from the old df.
+        sped_df = sped_df.reset_index(drop=True)
 
         # Define column types
         sped_df = sped_df.astype({
@@ -140,19 +147,19 @@ for registro, df in df.groupby('registro'):
             'cod': str,
             'desc': str,
             'qtd': str, # Verificar
-            '': str,
+            '6': str,
             'VL_ITEM': float,
             'CFOP': str, # Verificar
             'cst': str,
             'bc_icms': float,
             'aliq': float,
             'vl_icms': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
-            '': str # Verificar
+            '13': float,
+            '14': float,
+            '15': float,
+            '16': float,
+            '17': float,
+            '18': str # Verificar
         })
 
         print(df)
@@ -178,6 +185,9 @@ for registro, df in df.groupby('registro'):
         # Insert 'cnpj' and 'periodo' columns from df into the sped_df
         sped_df.insert(0, 'cnpj', df['cnpj'])
         sped_df.insert(1, 'periodo', df['periodo'])
+
+        # Resets the index of "sped_df", as it retained the index from the old df.
+        sped_df = sped_df.reset_index(drop=True)
 
         # Parse 'DT_INI' and 'DT_FIN' columns to datetime format
         sped_df['DT_INI'] = pd.to_datetime(sped_df['DT_INI'], format='%d%m%Y')
@@ -207,25 +217,25 @@ for registro, df in df.groupby('registro'):
                 columns={
                     1: 'REG',
                     2: 'vl_tot_debitos', # O generate_sped.py está gerando duplicado
-                    3: '', # Não achei
-                    4: '', # Não achei
-                    5: 'vl_tot_debitos', # O generate_sped.py está gerando duplicado
+                    3: '3', # Não achei
+                    4: '4', # Não achei
+                    5: 'vl_tot_debitos2', # O generate_sped.py está gerando duplicado
                     6: 'saldo_anterior', # é o "vl_saldo_credor_ant"?
-                    7: '', # Não achei
-                    8: '', # Não achei
-                    9: '', # Não achei
-                    10: '', # Não achei
-                    11: '', # Não achei
+                    7: '7', # Não achei
+                    8: '8', # Não achei
+                    9: '9', # Não achei
+                    10: '10', # Não achei
+                    11: '11', # Não achei
                     12: 'vl_tot_creditos', # O generate_sped.py está gerando duplicado
-                    13: 'vl_tot_creditos', # O generate_sped.py está gerando duplicado
-                    14: '', # Não achei
-                    15: '', # Não achei
-                    16: '', # Não achei
+                    13: 'vl_tot_creditos2', # O generate_sped.py está gerando duplicado
+                    14: '14', # Não achei
+                    15: '15', # Não achei
+                    16: '16', # Não achei
                     17: 'vl_saldo_credor', # Não achei
-                    18: '', # Não achei
-                    19: '', # Não achei
-                    20: '', # Não achei
-                    21: '', # Não achei
+                    18: '18', # Não achei
+                    19: '19', # Não achei
+                    20: '20', # Não achei
+                    21: '21', # Não achei
                     22: 'vl_apurado'
                 }
             )
@@ -234,6 +244,9 @@ for registro, df in df.groupby('registro'):
         # Insert 'cnpj' and 'periodo' columns from df into the sped_df
         sped_df.insert(0, 'cnpj', df['cnpj'])
         sped_df.insert(1, 'periodo', df['periodo'])
+
+        # Resets the index of "sped_df", as it retained the index from the old df.
+        sped_df = sped_df.reset_index(drop=True)
 
         # Parse 'periodo' column to datetime format
         sped_df['periodo'] = pd.to_datetime(sped_df['periodo'], format='%Y-%m')
@@ -244,25 +257,25 @@ for registro, df in df.groupby('registro'):
             'periodo': 'datetime64[ns]',
             'REG': str,
             'vl_tot_debitos': float,
-            '': float,
-            '': float,
-            'vl_tot_debitos': float,
+            '3': float,
+            '4': float,
+            'vl_tot_debitos2': float,
             'saldo_anterior': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
+            '7': float,
+            '8': float,
+            '9': float,
+            '10': float,
+            '11': float,
             'vl_tot_creditos': float,
-            'vl_tot_creditos': float,
-            '': float,
-            '': float,
-            '': float,
+            'vl_tot_creditos2': float,
+            '14': float,
+            '15': float,
+            '16': float,
             'vl_saldo_credor': float,
-            '': float,
-            '': float,
-            '': float,
-            '': float,
+            '18': float,
+            '19': float,
+            '20': float,
+            '21': float,
             'vl_apurado': float
         })
 
