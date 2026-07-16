@@ -20,7 +20,7 @@ for item in raw_path.rglob('*'):
 df = pd.concat(df_array, ignore_index=True)
 
 for registro, df in df.groupby('registro'):
-    nome_arquivo = f'sped_{registro.lower()}.parquet'
+    nome_arquivo = f'../data/silver/sped_{registro.lower()}.parquet'
 
     if registro == 'C100':
         print(nome_arquivo)
@@ -56,7 +56,46 @@ for registro, df in df.groupby('registro'):
             )
         )
 
+        # Insert 'cnpj' and 'periodo' columns from df into the sped_df
+        sped_df.insert(0, 'cnpj', df['cnpj'])
+        sped_df.insert(1, 'periodo', df['periodo'])
+
+        # Parse 'dt_emi' and 'dt_sai' columns to datetime format
+        sped_df['dt_emi'] = pd.to_datetime(sped_df['dt_emi'], format='%d%m%Y')
+        sped_df['dt_sai'] = pd.to_datetime(sped_df['dt_sai'], format='%d%m%Y')
+
+        # Define column types
+        sped_df = sped_df.astype({
+            'cnpj': str,
+            'periodo': 'datetime64[ns]',
+            'REG': str,
+            'IND_OPER': int,
+            'IND_EMIT': int,
+            'cnpj_estabelecimento': str,
+            'COD_MOD': str,
+            'COD_SIT': int,
+            'num_doc': int,
+            '': str,
+            'dt_emi': 'datetime64[ns]',
+            'dt_sai': 'datetime64[ns]',
+            'valor_total': float,
+            'vl_bc_icms_total': float,
+            'vl_icms_total': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            '': str, # Verificar
+            'part_cnpj': str
+        })
+
+        print(df)
         print(sped_df)
+        print(sped_df.dtypes)
+        df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
 
     if registro == 'C170':
         print(nome_arquivo)
@@ -88,7 +127,38 @@ for registro, df in df.groupby('registro'):
             )
         )
 
+        # Insert 'cnpj' and 'periodo' columns from df into the sped_df
+        sped_df.insert(0, 'cnpj', df['cnpj'])
+        sped_df.insert(1, 'periodo', df['periodo'])
+
+        # Define column types
+        sped_df = sped_df.astype({
+            'cnpj': str,
+            'periodo': 'datetime64[ns]',
+            'REG': str,
+            'i': int,
+            'cod': str,
+            'desc': str,
+            'qtd': str, # Verificar
+            '': str,
+            'VL_ITEM': float,
+            'CFOP': str, # Verificar
+            'cst': str,
+            'bc_icms': float,
+            'aliq': float,
+            'vl_icms': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            '': str # Verificar
+        })
+
+        print(df)
         print(sped_df)
+        print(sped_df.dtypes)
+        df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
 
     if registro == 'E100':
         print(nome_arquivo)
@@ -105,7 +175,27 @@ for registro, df in df.groupby('registro'):
             )
         )
 
+        # Insert 'cnpj' and 'periodo' columns from df into the sped_df
+        sped_df.insert(0, 'cnpj', df['cnpj'])
+        sped_df.insert(1, 'periodo', df['periodo'])
+
+        # Parse 'DT_INI' and 'DT_FIN' columns to datetime format
+        sped_df['DT_INI'] = pd.to_datetime(sped_df['DT_INI'], format='%d%m%Y')
+        sped_df['DT_FIN'] = pd.to_datetime(sped_df['DT_FIN'], format='%d%m%Y')
+
+        # Define column types
+        sped_df = sped_df.astype({
+            'cnpj': str,
+            'periodo': 'datetime64[ns]',
+            'REG': str,
+            'DT_INI': 'datetime64[ns]',
+            'DT_FIN': 'datetime64[ns]'
+        })
+
+        print(df)
         print(sped_df)
+        print(sped_df.dtypes)
+        df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
 
     if registro == 'E110':
         print(nome_arquivo)
@@ -141,4 +231,42 @@ for registro, df in df.groupby('registro'):
             )
         )
 
+        # Insert 'cnpj' and 'periodo' columns from df into the sped_df
+        sped_df.insert(0, 'cnpj', df['cnpj'])
+        sped_df.insert(1, 'periodo', df['periodo'])
+
+        # Parse 'periodo' column to datetime format
+        sped_df['periodo'] = pd.to_datetime(sped_df['periodo'], format='%Y-%m')
+
+        # Define column types
+        sped_df = sped_df.astype({
+            'cnpj': str,
+            'periodo': 'datetime64[ns]',
+            'REG': str,
+            'vl_tot_debitos': float,
+            '': float,
+            '': float,
+            'vl_tot_debitos': float,
+            'saldo_anterior': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            'vl_tot_creditos': float,
+            'vl_tot_creditos': float,
+            '': float,
+            '': float,
+            '': float,
+            'vl_saldo_credor': float,
+            '': float,
+            '': float,
+            '': float,
+            '': float,
+            'vl_apurado': float
+        })
+
+        print(df)
         print(sped_df)
+        print(sped_df.dtypes)
+        df.to_parquet(nome_arquivo, engine='pyarrow', compression='snappy')
