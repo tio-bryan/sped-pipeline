@@ -24,7 +24,7 @@ from datetime import date, timedelta
 from typing import Optional
 
 # ── Seed para reprodutibilidade ───────────────────────────────
-SEED = 42
+SEED = 40
 random.seed(SEED)
 
 

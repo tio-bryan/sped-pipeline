@@ -29,8 +29,6 @@ for registro, df in df.groupby('registro'):
     nome_arquivo = f'../data/silver/sped_{registro.lower()}.parquet'
 
     if registro == 'C100':
-        print(nome_arquivo)
-
         sped_df = (
             df['linha_raw'].str.split('|', expand=True) # Convert to string and split by '|' and expand into multiple columns
             .iloc[:, 1:-1] # Remove first and last columns (which are empty due to the split)
@@ -135,15 +133,17 @@ for registro, df in df.groupby('registro'):
 
         sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
 
+        print(f'\n{nome_arquivo}\n')
         print(sped_df_valid)
-        print(sped_df_invalid)
 
         save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        
+        print(f'\n{nome_arquivo}_invalid\n')
+        print(sped_df_invalid)
+
         save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
 
     if registro == 'C170':
-        print(nome_arquivo)
-
         sped_df = (
             df['linha_raw'].str.split('|', expand=True) # Convert to string and split by '|' and expand into multiple columns
             .iloc[:, 1:-1] # Remove first and last columns (which are empty due to the split)
@@ -232,15 +232,17 @@ for registro, df in df.groupby('registro'):
 
         sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
 
+        print(f'\n{nome_arquivo}\n')
         print(sped_df_valid)
-        print(sped_df_invalid)
 
         save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        
+        print(f'\n{nome_arquivo}_invalid\n')
+        print(sped_df_invalid)
+
         save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
 
     if registro == 'E100':
-        print(nome_arquivo)
-
         sped_df = (
             df['linha_raw'].str.split('|', expand=True) # Convert to string and split by '|' and expand into multiple columns
             .iloc[:, 1:-1] # Remove first and last columns (which are empty due to the split)
@@ -288,15 +290,17 @@ for registro, df in df.groupby('registro'):
 
         sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
 
+        print(f'\n{nome_arquivo}\n')
         print(sped_df_valid)
-        print(sped_df_invalid)
 
         save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        
+        print(f'\n{nome_arquivo}_invalid\n')
+        print(sped_df_invalid)
+
         save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
 
     if registro == 'E110':
-        print(nome_arquivo)
-
         sped_df = (
             df['linha_raw'].str.split('|', expand=True) # Convert to string and split by '|' and expand into multiple columns
             .iloc[:, 1:-1] # Remove first and last columns (which are empty due to the split)
@@ -400,8 +404,12 @@ for registro, df in df.groupby('registro'):
 
         sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
 
+        print(f'\n{nome_arquivo}\n')
         print(sped_df_valid)
-        print(sped_df_invalid)
 
         save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        
+        print(f'\n{nome_arquivo}_invalid\n')
+        print(sped_df_invalid)
+
         save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')

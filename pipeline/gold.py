@@ -6,3 +6,4 @@ import duckdb
 
 
 duckdb.sql("SELECT * FROM '../data/silver/sped_c170.parquet'").show()
+duckdb.sql("SELECT COUNT(*) FROM '../data/silver/sped_c170.parquet'").show()
