@@ -22,8 +22,6 @@ for item in raw_path.rglob('*'):
             for line in file:
                 line_split = line.split('|')
 
-                print(line_split)
-
                 if line_split[1] == '0000':
                     cnpj = line_split[5]
                     periodo = f'{line_split[3][4:]}-{line_split[3][2:4]}'
@@ -49,4 +47,5 @@ for item in raw_path.rglob('*'):
         dir_path.mkdir(parents=True, exist_ok=True)
 
         # Convert Pandas DataFrame to Parquet format and save it to the bronze directory
+        print(f'../data/bronze/{cnpj}/{periodo}.parquet')
         df.to_parquet(f'../data/bronze/{cnpj}/{periodo}.parquet', engine='pyarrow', compression='snappy')

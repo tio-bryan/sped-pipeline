@@ -1,4 +1,10 @@
 venv/
 __pycache__/
-data/*
-!data/.gitkeep
+data/bronze/*
+!data/bronze/.gitkeep
+data/gold/*
+!data/gold/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+data/silver/*
+!data/silver/.gitkeep
