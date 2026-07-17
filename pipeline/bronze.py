@@ -7,11 +7,11 @@ import pandas as pd
 
 
 # Read all files in the raw data directory
-raw_path_str = '../data/raw'
-raw_path = Path(raw_path_str)
+raw_path = Path('../data/raw')
+bronze_path = '../data/bronze'
 
 for item in raw_path.rglob('*'):
-    if item.is_file():
+    if item.is_file() and not any(part.startswith(".gitkeep") for part in item.parts):
         with open(item, 'r') as file:
             registro_rows = []
             linha_raw_rows = []
@@ -43,9 +43,10 @@ for item in raw_path.rglob('*'):
         })
 
         # Create CNPJ directory if it doesn't exist
-        dir_path = Path(f'../data/bronze/{cnpj}')
+        dir_path = Path(f'{bronze_path}/{cnpj}')
         dir_path.mkdir(parents=True, exist_ok=True)
 
         # Convert Pandas DataFrame to Parquet format and save it to the bronze directory
-        print(f'../data/bronze/{cnpj}/{periodo}.parquet')
-        df.to_parquet(f'../data/bronze/{cnpj}/{periodo}.parquet', engine='pyarrow', compression='snappy')
+        parquet_path = f'{bronze_path}/{cnpj}/{periodo}.parquet'
+        print(parquet_path)
+        df.to_parquet(parquet_path, engine='pyarrow', compression='snappy')

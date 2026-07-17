@@ -12,8 +12,8 @@ import duckdb
 duckdb.sql("SELECT cnpj, periodo, CFOP, SUM(vl_icms) FROM '../data/silver/sped_c170.parquet' GROUP BY cnpj, periodo, CFOP").show()
 
 # divergencias_apuracao
-duckdb.sql("SELECT cnpj, periodo, SUM(vl_icms) FROM '../data/silver/sped_c170.parquet' GROUP BY cnpj, periodo").show()
-duckdb.sql("SELECT cnpj, periodo, SUM(vl_apurado) FROM '../data/silver/sped_e110.parquet' GROUP BY cnpj, periodo").show()
+# duckdb.sql("SELECT cnpj, periodo, SUM(vl_icms) FROM '../data/silver/sped_c170.parquet' GROUP BY cnpj, periodo").show()
+# duckdb.sql("SELECT cnpj, periodo, SUM(vl_apurado) FROM '../data/silver/sped_e110.parquet' GROUP BY cnpj, periodo").show()
 
 duckdb.sql(
     """

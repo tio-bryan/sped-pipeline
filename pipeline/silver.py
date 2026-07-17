@@ -12,13 +12,12 @@ from functions import save_parquet_idempotent
 sys.path.append(str(Path(__file__).resolve().parent))
 
 # Read all files in the bronze data directory
-raw_path_str = '../data/bronze'
-raw_path = Path(raw_path_str)
+raw_path = Path('../data/bronze')
 
 df_array = []
 
 for item in raw_path.rglob('*'):
-    if item.is_file():
+    if item.is_file() and not any(part.startswith(".gitkeep") for part in item.parts):
         df = pd.read_parquet(item)
         df_array.append(df)
 
@@ -26,7 +25,8 @@ for item in raw_path.rglob('*'):
 df = pd.concat(df_array, ignore_index=True)
 
 for registro, df in df.groupby('registro'):
-    nome_arquivo = f'../data/silver/sped_{registro.lower()}.parquet'
+    path_arquivo = '../data/silver/'
+    nome_arquivo = f'sped_{registro.lower()}'
 
     if registro == 'C100':
         sped_df = (
@@ -133,15 +133,15 @@ for registro, df in df.groupby('registro'):
 
         sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
 
-        print(f'\n{nome_arquivo}\n')
+        print(f'\n{nome_arquivo}.parquet\n')
         print(sped_df_valid)
 
-        save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        save_parquet_idempotent(sped_df_valid, f'{path_arquivo}{nome_arquivo}.parquet')
         
-        print(f'\n{nome_arquivo}_invalid\n')
+        print(f'\n{nome_arquivo}_invalid.parquet\n')
         print(sped_df_invalid)
 
-        save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
+        save_parquet_idempotent(sped_df_invalid, f'{path_arquivo}{nome_arquivo}_invalid.parquet')
 
     if registro == 'C170':
         sped_df = (
@@ -232,15 +232,15 @@ for registro, df in df.groupby('registro'):
 
         sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
 
-        print(f'\n{nome_arquivo}\n')
+        print(f'\n{nome_arquivo}.parquet\n')
         print(sped_df_valid)
 
-        save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        save_parquet_idempotent(sped_df_valid, f'{path_arquivo}{nome_arquivo}.parquet')
         
-        print(f'\n{nome_arquivo}_invalid\n')
+        print(f'\n{nome_arquivo}_invalid.parquet\n')
         print(sped_df_invalid)
 
-        save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
+        save_parquet_idempotent(sped_df_invalid, f'{path_arquivo}{nome_arquivo}_invalid.parquet')
 
     if registro == 'E100':
         sped_df = (
@@ -290,15 +290,15 @@ for registro, df in df.groupby('registro'):
 
         sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
 
-        print(f'\n{nome_arquivo}\n')
+        print(f'\n{nome_arquivo}.parquet\n')
         print(sped_df_valid)
 
-        save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        save_parquet_idempotent(sped_df_valid, f'{path_arquivo}{nome_arquivo}.parquet')
         
-        print(f'\n{nome_arquivo}_invalid\n')
+        print(f'\n{nome_arquivo}_invalid.parquet\n')
         print(sped_df_invalid)
 
-        save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
+        save_parquet_idempotent(sped_df_invalid, f'{path_arquivo}{nome_arquivo}_invalid.parquet')
 
     if registro == 'E110':
         sped_df = (
@@ -404,12 +404,12 @@ for registro, df in df.groupby('registro'):
 
         sped_df_invalid['motivo_erro'] = 'Linha contém valor nulo em uma das colunas obrigatórias'
 
-        print(f'\n{nome_arquivo}\n')
+        print(f'\n{nome_arquivo}.parquet\n')
         print(sped_df_valid)
 
-        save_parquet_idempotent(sped_df_valid, nome_arquivo)
+        save_parquet_idempotent(sped_df_valid, f'{path_arquivo}{nome_arquivo}.parquet')
         
-        print(f'\n{nome_arquivo}_invalid\n')
+        print(f'\n{nome_arquivo}_invalid.parquet\n')
         print(sped_df_invalid)
 
-        save_parquet_idempotent(sped_df_invalid, f'{nome_arquivo}_invalid')
+        save_parquet_idempotent(sped_df_invalid, f'{path_arquivo}{nome_arquivo}_invalid.parquet')
