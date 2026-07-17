@@ -1,36 +1,91 @@
 # Schemas
 
 ## bronze.py
-- registro: string — código do registro (ex: 'C100')
-- linha_raw: string — conteúdo completo da linha original
-- cnpj: string — extraído do registro 0000
-- periodo: string — YYYY-MM, extraído do registro 0000
-- ingestao_ts: timestamp — momento da leitura
+- registro: string - código do registro (ex: 'C100')
+- linha_raw: string - conteúdo completo da linha original
+- cnpj: string - extraído do registro 0000
+- periodo: string - YYYY-MM, extraído do registro 0000
+- ingestao_ts: timestamp - momento da leitura
 
 ## silver.py
 - C100:
-    - cnpj: string — gerado no `bronze.py`
-    - periodo: string — gerado no `bronze.py`
-    - REG: string — 
-    - IND_OPER: string — 
-    - IND_EMIT: string — 
-    - cnpj_estabelecimento: string — 
-    - COD_MOD: string — 
-    - COD_SIT: string — 
-    - num_doc: string — 
-    - 8: string — 
-    - dt_emi: string — 
-    - dt_sai: string — 
-    - valor_total: string — 
-    - vl_bc_icms_total: string — 
-    - vl_icms_total: string — 
-    - 14: string — 
-    - 15: string — 
-    - 16: string — 
-    - 17: string — 
-    - 18: string — 
-    - 19: string — 
-    - 20: string — 
-    - 21: string — 
-    - part_cnpj: string — 
-- 
+    - cnpj: string - gerado no `bronze.py`
+    - periodo: datetime64[ns] - gerado no `bronze.py`
+    - REG: string
+    - IND_OPER: int
+    - IND_EMIT: int
+    - cnpj_estabelecimento: string
+    - COD_MOD: string
+    - COD_SIT: int
+    - num_doc: int
+    - 8: string
+    - dt_emi: datetime64[ns]
+    - dt_sai: datetime64[ns]
+    - valor_total: float
+    - vl_bc_icms_total: float
+    - vl_icms_total: float
+    - 14: float
+    - 15: float
+    - 16: float
+    - 17: float
+    - 18: float
+    - 19: float
+    - 20: float
+    - 21: string
+    - part_cnpj: string
+- C170:
+    - cnpj: string - gerado no `bronze.py`
+    - periodo: datetime64[ns] - gerado no `bronze.py`
+    - REG: string
+    - i: int
+    - cod: string
+    - descr: string
+    - qtd: string
+    - 6: string
+    - VL_ITEM: float
+    - CFOP: string
+    - cst: string
+    - bc_icms: float
+    - aliq: float
+    - vl_icms: float
+    - 13: float
+    - 14: float
+    - 15: float
+    - 16: float
+    - 17: float
+    - 18: string
+- E100:
+    - cnpj: string - gerado no `bronze.py`
+    - periodo: datetime64[ns] - gerado no `bronze.py`
+    - REG: string
+    - DT_INI': datetime64[ns]
+    - DT_FIN': datetime64[ns]
+- E110:
+    - cnpj: string - gerado no `bronze.py`
+    - periodo: datetime64[ns] - gerado no `bronze.py`
+    - REG: string
+    - vl_tot_debitos: float
+    - 3: float
+    - 4: float
+    - vl_tot_debitos2: float
+    - saldo_anterior: float
+    - 7: float
+    - 8: float
+    - 9: float
+    - 10: float
+    - 11: float
+    - vl_tot_creditos: float
+    - vl_tot_creditos2: float
+    - 14: float
+    - 15: float
+    - 16: float
+    - vl_saldo_credor: float
+    - 18: float
+    - 19: float
+    - 20: float
+    - 21: float
+    - vl_apurado: float
+## gold.py
+- icms_apuracao_mensal:
+- icms_por_cfop:
+- divergencias_apuracao:

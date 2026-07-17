@@ -26,7 +26,7 @@ período e CFOP;
     - `divergencias_apuracao`: Diferença entre ICMS calculado bottom-up (soma de C170)
 e o declarado no E110, por estabelecimento e período.
 
-Schemas dos arquivos gerados por cada etapa: [Schemas](docs/schemas.md)
+[Schemas](docs/schemas.md) dos arquivos gerados por cada etapa
 
 ## Pré-requisitos
 - Python 3.14.6+
@@ -79,4 +79,5 @@ Instruções para [Windows](docs/how_to_use_windows.md)
 - Verificar os campos no Silver:
     - Confirmar e resolver todos os campos comentados;
     - Validar o `vl_apurado` do E110. Nesse campo há chance do valor declarado ser diferente do calculado bottom-up.
+- Ajustar o schemas.md
 - Suporte a reprocessamento parcial por período ou empresa.
