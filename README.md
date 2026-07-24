@@ -75,9 +75,14 @@ python run_all.py
 
 Instruções para [Windows](docs/how_to_use_windows.md)
 
+## Observações
+- Adicionado arquivos .gitkeep dentro dos subdiretórios do `/data` pois sem ele o git não rastreia pastas vazias.
+- O arquivo `silver_extended.py` foi a primeira versão feito com várias repetições de códigos. Na versão final `silver.py` foi feito uma grande refatoração de código para ficar mais enxuto.
+
 ## To be Done
 - Verificar os campos no Silver:
     - Confirmar e resolver todos os campos comentados;
     - Validar o `vl_apurado` do E110. Nesse campo há chance do valor declarado ser diferente do calculado bottom-up.
 - Ajustar o schemas.md
 - Suporte a reprocessamento parcial por período ou empresa.
+- Tentar converter `CHV_NFE` para o tipo numérico correto. Deixei como string por enquanto pois está estourando o limite de dígitos de int.

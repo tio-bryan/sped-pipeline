@@ -13,33 +13,33 @@ bronze_path = '../data/bronze'
 for item in raw_path.rglob('*'):
     if item.is_file() and not any(part.startswith(".gitkeep") for part in item.parts):
         with open(item, 'r') as file:
-            registro_rows = []
-            linha_raw_rows = []
+            register_rows = []
+            raw_rows = []
             cnpj_rows = []
-            periodo_rows = []
-            ingestao_ts_rows = []
+            period_rows = []
+            ingestion_ts_rows = []
 
             for line in file:
                 line_split = line.split('|')
 
                 if line_split[1] == '0000':
-                    cnpj = line_split[5]
-                    periodo = f'{line_split[3][4:]}-{line_split[3][2:4]}'
+                    cnpj = line_split[7]
+                    periodo = f'{line_split[4][4:]}-{line_split[4][2:4]}'
 
                 if line_split[1] in ['0000', '0150', 'C100', 'C170', 'E100', 'E110']:
-                    registro_rows.append(line_split[1])
-                    linha_raw_rows.append(line)
+                    register_rows.append(line_split[1])
+                    raw_rows.append(line)
                     cnpj_rows.append(cnpj)
-                    periodo_rows.append(periodo)
-                    ingestao_ts_rows.append(pd.Timestamp.now())
+                    period_rows.append(periodo)
+                    ingestion_ts_rows.append(pd.Timestamp.now())
 
         # Generate Pandas DataFrame
         df = pd.DataFrame({
-            'registro': registro_rows,
-            'linha_raw': linha_raw_rows,
+            'registro': register_rows,
+            'linha_raw': raw_rows,
             'cnpj': cnpj_rows,
-            'periodo': periodo_rows,
-            'ingestao_ts': ingestao_ts_rows
+            'periodo': period_rows,
+            'ingestao_ts': ingestion_ts_rows
         })
 
         # Create CNPJ directory if it doesn't exist

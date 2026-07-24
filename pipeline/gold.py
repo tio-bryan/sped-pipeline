@@ -8,11 +8,25 @@ import duckdb
 # duckdb.sql("SELECT * FROM '../data/silver/sped_c170.parquet'").show()
 # duckdb.sql("SELECT COUNT(*) FROM '../data/silver/sped_c170.parquet'").show()
 
+# icms_apuracao_mensal
+duckdb.sql(
+    """
+    COPY (
+        
+    )
+    TO '../data/gold/icms_apuracao_mensal.parquet'
+    (FORMAT PARQUET);
+    """
+)
+
 # icms_por_cfop
 duckdb.sql("SELECT cnpj, periodo, CFOP, SUM(vl_icms) FROM '../data/silver/sped_c170.parquet' GROUP BY cnpj, periodo, CFOP").show()
 
 # divergencias_apuracao
+
+# A
 # duckdb.sql("SELECT cnpj, periodo, SUM(vl_icms) FROM '../data/silver/sped_c170.parquet' GROUP BY cnpj, periodo").show()
+# B
 # duckdb.sql("SELECT cnpj, periodo, SUM(vl_apurado) FROM '../data/silver/sped_e110.parquet' GROUP BY cnpj, periodo").show()
 
 duckdb.sql(
